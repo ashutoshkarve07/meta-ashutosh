@@ -1,0 +1,19 @@
+################################################
+# meta-custom/recipes-phosphor/bmcweb/bmcweb_%.bbappend
+################################################
+
+# 1) Disable strict XSS prevention so bmcweb
+#    won’t crash if schema files are missing
+PACKAGECONFIG:append = " insecure-disable-xss"
+
+# 2) Ensure we ship the insecure signing key
+DEPENDS:append = " phosphor-insecure-signing-key-native"
+
+# 3) Install the systemd override so bmcweb can bind port 443
+SRC_URI:append = " file://cap-bind.conf"
+do_install_append() {
+  install -d ${D}${systemd_unitdir}/system/bmcweb.service.d
+  install -m 0644 ${WORKDIR}/cap-bind.conf \
+    ${D}${systemd_unitdir}/system/bmcweb.service.d/
+}
+

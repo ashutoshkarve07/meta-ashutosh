@@ -1,0 +1,7 @@
+# Enable UART on the GPIO header for the serial console
+enable_uart=1
+
+# Minimal GPU memory (we’re headless)
+gpu_mem=16
+
+# (any other Pi firmware tweaks you need…)
